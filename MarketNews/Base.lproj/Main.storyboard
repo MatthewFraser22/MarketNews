@@ -77,11 +77,11 @@
             </objects>
             <point key="canvasLocation" x="-1139" y="-537"/>
         </scene>
-        <!--Item 1-->
+        <!--News-->
         <scene sceneID="v3r-Zn-akJ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1De-94-x5v" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item 1" id="sbk-To-EGT"/>
+                    <tabBarItem key="tabBarItem" title="News" image="newspaper.fill" catalog="system" id="sbk-To-EGT"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QRe-28-NHV">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -98,6 +98,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="newspaper.fill" catalog="system" width="128" height="111"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
