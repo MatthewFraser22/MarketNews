@@ -10,6 +10,17 @@ import Combine
 
 class HTTPClient {
 
+    private var apiKeys = [
+        "S2TMY93PPRKX0W8C",
+        "1JTHEE9X15R84QNC",
+        "RWN08773D96XUM7M",
+        "L996LNUVQRLJBIZH"
+    ]
+
+    var getApiKey: String {
+        return apiKeys.randomElement() ?? ""
+    }
+
     init() {}
 
     func publisher<Req: Encodable, Res: Decodable>(
@@ -43,6 +54,14 @@ class HTTPClient {
                     return data
                 }
                 .decode(type: Res.self, decoder: JSONDecoder())
+                .mapError({ (error) -> JSONDecodingError in
+                    return JSONDecodingError(
+                        errorCode: JSONDecodingError.ErrorCodes.unknown.rawValue,
+                        errorUserInfo: [
+                            JSONDecodingError.UserInfoKey.failure.rawValue : String(describing: error)
+                        ]
+                    )
+                })
                 .eraseToAnyPublisher()
                 
         } catch {
