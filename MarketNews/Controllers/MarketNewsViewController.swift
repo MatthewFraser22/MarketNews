@@ -34,6 +34,7 @@ class MarketNewsViewController: UIViewController {
 
     private func startObservers() {
         $marketData
+            .debounce(for: .milliseconds(750), scheduler: RunLoop.main)
             .receive(on: RunLoop.main)
             .compactMap({ ($0?.feed) })
             .sink { completion in
@@ -67,7 +68,7 @@ class MarketNewsViewController: UIViewController {
     }
     private func setupNavigationView() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "🗞News"
+        self.navigationItem.title = "Market News 🗞"
     }
 
     private func setupCollectionView() {
@@ -111,7 +112,7 @@ class MarketNewsViewController: UIViewController {
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.93),
-            heightDimension: .estimated(350)
+            heightDimension: .estimated(400)
         )
 
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -141,7 +142,6 @@ class MarketNewsViewController: UIViewController {
     }
 
     private func configureNewsItem(item: FeedItem) -> NewsArticleItem {
-        print("returning news item")
         let result = item.bannerImage.stringToUIImage()
         var bannerImage = UIImage()
 
