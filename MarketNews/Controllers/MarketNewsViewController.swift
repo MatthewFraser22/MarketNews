@@ -11,14 +11,17 @@ import Combine
 
 class MarketNewsViewController: UIViewController {
 
-    private var collectionView: UICollectionView!
-    private var cancellable: Set<AnyCancellable> = []
-    lazy var dataSource = { configureDiffableDataSource() }()
+    // MARK: - Properties
+
     typealias DataSource = UICollectionViewDiffableDataSource<NewsSection, FeedItem> // Section Identifier & type
     typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<NewsSection, FeedItem>
-
+    lazy var dataSource = { configureDiffableDataSource() }()
+    private var collectionView: UICollectionView!
+    private var cancellable: Set<AnyCancellable> = []
     var client: HTTPClient = HTTPClient()
-    @Published var marketData: MarketData? = nil
+    @Published var marketData: MarketData?
+
+    // MARK: - Creation
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +44,7 @@ class MarketNewsViewController: UIViewController {
                     print(error)
                 }
             } receiveValue: { [weak self] feed in
-                print("TESTING Feed \(feed.count)")
-                self?.reloadData(feed: feed, section: .topStories)
+                self?.reloadData()
             }.store(in: &cancellable)
 
     }
@@ -59,7 +61,6 @@ class MarketNewsViewController: UIViewController {
                 print(error)
             }
         } receiveValue: { [weak self] marketData in
-            print("done")
             self?.marketData = marketData
         }.store(in: &cancellable)
 
@@ -84,9 +85,7 @@ class MarketNewsViewController: UIViewController {
 
         collectionView.dataSource = self.dataSource
 
-        guard let feed = marketData?.feed else { return }
-
-        self.reloadData(feed: feed, section: .topStories)
+        self.reloadData()
     }
 
     // MARK: - Configure Layouts
@@ -107,10 +106,12 @@ class MarketNewsViewController: UIViewController {
             heightDimension: .fractionalHeight(1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 0)
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .fractionalHeight(1)
+            widthDimension: .fractionalWidth(0.93),
+            heightDimension: .estimated(350)
         )
 
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -120,19 +121,21 @@ class MarketNewsViewController: UIViewController {
         return section
     }
 
-    private func configureDiffableDataSource() -> DataSource {
-        let datasource = DataSource(
-            collectionView: collectionView,
-            cellProvider: { [weak self] collectionView, indexPath, itemIdentifier in
-                if indexPath.item < 3 {} else {}
+    // MARK: - Configure Data Source
 
-                return try? self?.configureCell(
-                    cellType: LargeNewsCollectionViewCell.self,
-                    collectionView: collectionView,
-                    indexPath: indexPath,
-                    newsArticle: (self?.configureNewsItem(item: itemIdentifier))!
-                )
-        })
+    private func configureDiffableDataSource() -> DataSource {
+        let dataSource = DataSource(
+            collectionView: collectionView
+        ) { [weak self] collectionView, indexPath, itemIdentifier in
+            if indexPath.item < 3 {} else {}
+
+            return try? self?.configureCell(
+                cellType: LargeNewsCollectionViewCell.self,
+                collectionView: collectionView,
+                indexPath: indexPath,
+                newsArticle: (self?.configureNewsItem(item: itemIdentifier))!
+            )
+        }
 
         return dataSource
     }
@@ -168,7 +171,7 @@ class MarketNewsViewController: UIViewController {
         indexPath: IndexPath,
         newsArticle: NewsArticleItem
     ) throws -> T {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as? T else {
             throw CellConfigureError.init(
                 errorCode: CellConfigureError.ErrorCodes.unableToDequeueCell.rawValue,
                 errorUserInfo: [
@@ -181,11 +184,14 @@ class MarketNewsViewController: UIViewController {
         return cell
     }
 
-    #warning("ISSUE starts here")
-    private func reloadData(feed: [FeedItem], section: NewsSection = .topStories) {
+    private func reloadData() {
         var snapshot = DataSourceSnapshot()
-        snapshot.appendSections([NewsSection.topStories, NewsSection.additionalStories])
-        snapshot.appendItems(feed, toSection: section)
+        snapshot.appendSections([.topStories, .additionalStories])
+
+        guard marketData?.feed != nil else { return }
+
+        snapshot.appendItems(marketData!.feed, toSection: .topStories)
+
         self.dataSource.apply(snapshot)
     }
 
@@ -210,6 +216,7 @@ class MarketNewsViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionView Delegate
 extension MarketNewsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // open web view to url

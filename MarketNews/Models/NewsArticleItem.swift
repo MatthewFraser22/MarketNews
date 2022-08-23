@@ -15,5 +15,4 @@ struct NewsArticleItem {
     let summary: String
     let timePublished: String
     let authors: [String]
-
 }

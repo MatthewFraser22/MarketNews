@@ -192,8 +192,8 @@
 		995A6A3D28AC48F4005776B1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				995A6A3E28AC78A3005776B1 /* MarketData.swift */,
 				990BDF5328AD9AC700F8A607 /* NewsSection.swift */,
+				995A6A3E28AC78A3005776B1 /* MarketData.swift */,
 				990BDF5B28ADB08500F8A607 /* NewsArticleItem.swift */,
 			);
 			path = Models;

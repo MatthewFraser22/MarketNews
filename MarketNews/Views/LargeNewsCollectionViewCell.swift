@@ -25,36 +25,64 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        bannerImageView.contentMode = .scaleAspectFit
+        bannerImageView.contentMode = .scaleAspectFill
         bannerImageView.clipsToBounds = true
         bannerImageView.layer.cornerRadius = 5
+        bannerImageView.sizeToFit()
+        bannerImageView.translatesAutoresizingMaskIntoConstraints = false
 
         sourceLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         sourceLabel.textColor = .label
 
-        articleTitleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        articleTitleLabel.font = UIFont.init(name: "AvenirNext-Bold", size: 18)
         articleTitleLabel.textColor = .label
+        articleTitleLabel.numberOfLines = 2
 
         summaryLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         summaryLabel.textColor = .label
 
         timePublishedLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
         timePublishedLabel.textColor = .label
-
+         
         authorsLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
         authorsLabel.textColor = .label
 
-        let vStack = UIStackView(arrangedSubviews: [articleTitleLabel, bannerImageView, sourceLabel, timePublishedLabel])
+        let vStack = UIStackView(arrangedSubviews: [
+            articleTitleLabel,
+            bannerImageView,
+            sourceLabel,
+            timePublishedLabel
+        ])
+
         vStack.translatesAutoresizingMaskIntoConstraints = false
-        vStack.alignment = .leading
+        vStack.alignment = .center
         vStack.axis = .vertical
         vStack.spacing = 4
+        
+        // DEBUG
+        vStack.backgroundColor = .blue
+        contentView.backgroundColor = .green
+        
+        bannerImageView.backgroundColor = .blue
+
+        self.addSubview(vStack)
 
         NSLayoutConstraint.activate([
-            vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            // Content View
+            //contentView.trailingAnchor.constraint(equalTo: super.leadingAnchor, constant: 0),
+
+            // Vertical Stack
+            //vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            //vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            vStack.widthAnchor.constraint(equalTo: super.widthAnchor, constant: 21),
+
+            // Image View
+            bannerImageView.heightAnchor.constraint(equalToConstant: 200),
+            //bannerImageView.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
+            //bannerImageView.trailingAnchor.constraint(equalTo: vStack.trailingAnchor)
+            bannerImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
 
     }
