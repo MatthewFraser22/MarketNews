@@ -46,4 +46,43 @@ extension String {
         }
         
     }
+
+    func customDate() -> String {
+        let year = self.prefix(4)
+        var monthInt = "\(self[4])\(self[5])"
+        let day = "\(self[6])\(self[7])"
+        let months = Month.allCases
+
+        if monthInt[0] == "0" { monthInt = monthInt[1].toString }
+
+        let month = months[monthInt.toInt ?? 0]
+        let formattedDate = "\(month) \(day), \(year)"
+
+        return formattedDate
+    }
+    
+    var toInt: Int? {
+        return Int(self)
+    }
+
+    subscript(offset: Int) -> Character {
+        self[index(startIndex, offsetBy: offset)]
+    }
+
+    // MARK: - Enums
+
+    private enum Month: String, CaseIterable {
+        case Janurary
+        case Feburary
+        case March
+        case April
+        case May
+        case June
+        case July
+        case August
+        case September
+        case October
+        case November
+        case December
+    }
 }

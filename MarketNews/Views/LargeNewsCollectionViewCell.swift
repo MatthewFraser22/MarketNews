@@ -31,27 +31,40 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         bannerImageView.sizeToFit()
         bannerImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        sourceLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        sourceLabel.textColor = .label
+        sourceLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        sourceLabel.textColor = .black
 
-        articleTitleLabel.font = UIFont.init(name: "AvenirNext-Bold", size: 18)
+        articleTitleLabel.font = UIFont.init(name: "Helvetica-Bold", size: 25)
         articleTitleLabel.textColor = .label
         articleTitleLabel.numberOfLines = 2
+        articleTitleLabel.textAlignment = .center
 
-        summaryLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        summaryLabel.font = UIFont.init(name: "Helvetica", size: 15)
         summaryLabel.textColor = .label
+        summaryLabel.numberOfLines = 3
+        summaryLabel.lineBreakMode = .byTruncatingTail
 
-        timePublishedLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
-        timePublishedLabel.textColor = .label
-         
+        timePublishedLabel.font = UIFont.boldSystemFont(ofSize: 12)
+        timePublishedLabel.textColor = .systemGray
+
         authorsLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
         authorsLabel.textColor = .label
+
+        let detailsVStack = UIStackView(arrangedSubviews: [
+            sourceLabel,
+            summaryLabel,
+            timePublishedLabel
+        ])
+        detailsVStack.axis = .vertical
+        detailsVStack.alignment = .leading
+        detailsVStack.spacing = 4
+        detailsVStack.translatesAutoresizingMaskIntoConstraints = false
+        // detailsVStack.backgroundColor = .green
 
         let vStack = UIStackView(arrangedSubviews: [
             articleTitleLabel,
             bannerImageView,
-            sourceLabel,
-            timePublishedLabel
+            detailsVStack
         ])
 
         vStack.translatesAutoresizingMaskIntoConstraints = false
@@ -60,29 +73,21 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         vStack.spacing = 4
         
         // DEBUG
-        vStack.backgroundColor = .blue
-        contentView.backgroundColor = .green
-        
-        bannerImageView.backgroundColor = .blue
+        // vStack.backgroundColor = .blue
+        // contentView.backgroundColor = .green
+        //bannerImageView.backgroundColor = .blue
 
         self.addSubview(vStack)
 
         NSLayoutConstraint.activate([
-            // Content View
-            //contentView.trailingAnchor.constraint(equalTo: super.leadingAnchor, constant: 0),
-
-            // Vertical Stack
-            //vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            //vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             vStack.widthAnchor.constraint(equalTo: super.widthAnchor, constant: 21),
 
-            // Image View
             bannerImageView.heightAnchor.constraint(equalToConstant: 200),
-            //bannerImageView.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
-            //bannerImageView.trailingAnchor.constraint(equalTo: vStack.trailingAnchor)
-            bannerImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+            bannerImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+
+            detailsVStack.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 15)
         ])
 
     }
@@ -95,7 +100,7 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         sourceLabel.text = item.source
         articleTitleLabel.text = item.title
         summaryLabel.text = item.summary
-        timePublishedLabel.text = item.timePublished
+        timePublishedLabel.text = item.timePublished.customDate()
         bannerImageView.image = item.bannerImage
         authorsLabel.text = item.authors.toString()
     }

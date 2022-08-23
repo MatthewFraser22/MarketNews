@@ -33,6 +33,7 @@
 		995A6A3C28AC4021005776B1 /* HTTPClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A3B28AC4021005776B1 /* HTTPClientError.swift */; };
 		995A6A3F28AC78A3005776B1 /* MarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A3E28AC78A3005776B1 /* MarketData.swift */; };
 		995A6A4128AC8857005776B1 /* EmptyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A4028AC8857005776B1 /* EmptyRequest.swift */; };
+		995B9D4A28B4902000E24FC0 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B9D4928B4902000E24FC0 /* Character+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		995A6A3B28AC4021005776B1 /* HTTPClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientError.swift; sourceTree = "<group>"; };
 		995A6A3E28AC78A3005776B1 /* MarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketData.swift; sourceTree = "<group>"; };
 		995A6A4028AC8857005776B1 /* EmptyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyRequest.swift; sourceTree = "<group>"; };
+		995B9D4928B4902000E24FC0 /* Character+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				990BDF5D28ADB40900F8A607 /* Array+Extensions.swift */,
 				990E091628AFFF6D00CBF7AD /* String+Extensions.swift */,
 				990E091C28B005F100CBF7AD /* UIImage+Extensions.swift */,
+				995B9D4928B4902000E24FC0 /* Character+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				990BDF4B28AD55B200F8A607 /* JSONDecodingError.swift in Sources */,
 				991F905C28AAD8BC0085050B /* AppDelegate.swift in Sources */,
 				990BDF5728ADA43100F8A607 /* LargeNewsCollectionViewCell.swift in Sources */,
+				995B9D4A28B4902000E24FC0 /* Character+Extensions.swift in Sources */,
 				990E091B28B0025100CBF7AD /* URLError.swift in Sources */,
 				991F907628AB2B9E0085050B /* HTTPMethod.swift in Sources */,
 				991F907A28AB36990085050B /* HTTPStatusCodes.swift in Sources */,
