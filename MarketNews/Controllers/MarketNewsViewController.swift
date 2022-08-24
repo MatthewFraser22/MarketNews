@@ -18,7 +18,7 @@ class MarketNewsViewController: UIViewController {
     lazy var dataSource = { configureDiffableDataSource() }()
     private var collectionView: UICollectionView!
     private var cancellable: Set<AnyCancellable> = []
-    var client: HTTPClient = HTTPClient()
+    private var client: HTTPClient = HTTPClient()
     @Published var marketData: MarketData?
 
     // MARK: - Creation
@@ -28,7 +28,7 @@ class MarketNewsViewController: UIViewController {
 
         setupNavigationView()
         setupCollectionView()
-        networkCall()
+        InitialNewsLoad()
         startObservers()
     }
 
@@ -47,10 +47,9 @@ class MarketNewsViewController: UIViewController {
             } receiveValue: { [weak self] feed in
                 self?.reloadData()
             }.store(in: &cancellable)
-
     }
 
-    private func networkCall() {
+    private func InitialNewsLoad() {
         client.publisher(
             for: getRequest(),
             response: MarketData.self
@@ -86,7 +85,7 @@ class MarketNewsViewController: UIViewController {
 
         collectionView.dataSource = self.dataSource
 
-        self.reloadData()
+        // self.reloadData()
     }
 
     // MARK: - Configure Layouts
@@ -142,19 +141,8 @@ class MarketNewsViewController: UIViewController {
     }
 
     private func configureNewsItem(item: FeedItem) -> NewsArticleItem {
-        let result = item.bannerImage.stringToUIImage()
-        var bannerImage = UIImage()
-
-        switch result {
-        case .success(let image):
-            bannerImage = image
-        case let .failure(error):
-            print(error)
-            bannerImage = .placeHolderImage
-        }
-
         let newsArticleItem = NewsArticleItem(
-            bannerImage: bannerImage,
+            bannerImage: item.bannerImage,
             source: item.source,
             title: item.title,
             summary: item.summary,
@@ -180,6 +168,7 @@ class MarketNewsViewController: UIViewController {
         }
 
         cell.configure(item: newsArticle)
+        
 
         return cell
     }
@@ -188,9 +177,9 @@ class MarketNewsViewController: UIViewController {
         var snapshot = DataSourceSnapshot()
         snapshot.appendSections([.topStories, .additionalStories])
 
-        guard marketData?.feed != nil else { return }
+        guard let feed = marketData?.feed else { return }
 
-        snapshot.appendItems(marketData!.feed, toSection: .topStories)
+        snapshot.appendItems(feed, toSection: .topStories)
 
         self.dataSource.apply(snapshot)
     }

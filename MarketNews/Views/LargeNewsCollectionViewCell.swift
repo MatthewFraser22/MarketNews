@@ -55,11 +55,11 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
             summaryLabel,
             timePublishedLabel
         ])
+
         detailsVStack.axis = .vertical
         detailsVStack.alignment = .leading
         detailsVStack.spacing = 4
         detailsVStack.translatesAutoresizingMaskIntoConstraints = false
-        // detailsVStack.backgroundColor = .green
 
         let vStack = UIStackView(arrangedSubviews: [
             articleTitleLabel,
@@ -71,11 +71,6 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         vStack.alignment = .center
         vStack.axis = .vertical
         vStack.spacing = 4
-        
-        // DEBUG
-        // vStack.backgroundColor = .blue
-        // contentView.backgroundColor = .green
-        //bannerImageView.backgroundColor = .blue
 
         self.addSubview(vStack)
 
@@ -101,8 +96,8 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         articleTitleLabel.text = item.title
         summaryLabel.text = item.summary
         timePublishedLabel.text = item.timePublished.customDate()
-        bannerImageView.image = item.bannerImage
         authorsLabel.text = item.authors.toString()
+        bannerImageView.downloaded(from: item.bannerImage)
     }
 
 }
