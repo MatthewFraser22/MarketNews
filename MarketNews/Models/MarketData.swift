@@ -73,19 +73,3 @@ struct TopicElement: Codable, Hashable {
         case topic
     }
 }
-
-enum TopicEnum: String, Codable {
-    case blockchain = "Blockchain"
-    case earnings = "Earnings"
-    case economyMacro = "Economy - Macro"
-    case economyMonetary = "Economy - Monetary"
-    case energyTransportation = "Energy & Transportation"
-    case finance = "Finance"
-    case financialMarkets = "Financial Markets"
-    case lifeSciences = "Life Sciences"
-    case manufacturing = "Manufacturing"
-    case mergersAcquisitions = "Mergers & Acquisitions"
-    case realEstateConstruction = "Real Estate & Construction"
-    case retailWholesale = "Retail & Wholesale"
-    case technology = "Technology"
-}
