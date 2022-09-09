@@ -18,23 +18,10 @@ class MarketNewsViewController: UIViewController {
     typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<NewsSection, FeedItem>
 
     lazy var dataSource = { configureDiffableDataSource() }()
-    private lazy var searchController: UISearchController = {
-        let sc = UISearchController(searchResultsController: nil)
-        sc.delegate = self
-        sc.searchResultsUpdater = self
-        sc.searchBar.delegate = self
-        sc.obscuresBackgroundDuringPresentation = false
-        sc.searchBar.placeholder = "Enter a Ticker or a Topic"
-        sc.searchBar.showsBookmarkButton = true
-        sc.searchBar.setImage(UIImage(systemName: "line.3.horizontal.decrease.circle"), for: .bookmark, state: .normal)
-        sc.searchBar.autocapitalizationType = .allCharacters
-
-        return sc
-    }()
 
     private var collectionView: UICollectionView!
     private var cancellable: Set<AnyCancellable> = []
-    private var client: HTTPClient = HTTPClient()
+    var client: HTTPClient = HTTPClient()
 
     @Published var initialLoad: MarketData?
     @Published var searchQuery: String = String()
@@ -53,7 +40,20 @@ class MarketNewsViewController: UIViewController {
     private func setupNavigationView() {
         navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Market News 🗞"
-        self.navigationItem.searchController = searchController
+
+        let filterButton = UIBarButtonItem(
+            image: .init(systemName: "line.3.horizontal.decrease.circle"),
+            style: .plain, target: self,
+            action: #selector(filterButtonAction)
+        )
+
+        self.navigationItem.rightBarButtonItem = filterButton
+    }
+
+    @objc private func filterButtonAction() {
+        let hostingController = UIHostingController(rootView: FilterSearchView(client: client))
+        hostingController.modalPresentationStyle = .fullScreen
+        self.present(hostingController, animated: true)
     }
 
     private func startObservers() {
@@ -65,10 +65,10 @@ class MarketNewsViewController: UIViewController {
                 case .finished:
                     break
                 case let .failure(error):
-                    print(error)
+                    print("Error: \(error)")
                 }
             } receiveValue: { [weak self] feed in
-                print("Testing reload data")
+                print("Testing reload data \(feed.count)")
                 self?.reloadData()
             }.store(in: &cancellable)
 
@@ -80,7 +80,6 @@ class MarketNewsViewController: UIViewController {
 
                 // TODO: - load by tickers or topics to do that i need a symbol list
 
-                self?.getRequestWithTopics(topics: searchQuery.lowercased())
 
             }.store(in: &cancellable)
 
@@ -217,45 +216,12 @@ class MarketNewsViewController: UIViewController {
 
     // MARK: - Get Request
 
-    private func getRequestWithTopics(
-        topics: String = "technology",
-        limit: String = "50"
-    ) -> Request<EmptyRequest> {
-        Request(
-            basePathURL: "https://www.alphavantage.co/query",
-            httpMethod: .get,
-            queryParams: [
-                "function" : "NEWS_SENTIMENT",
-                "topics" : topics,
-                "limit" : limit,
-                "apikey" : client.getApiKey
-            ],
-            body: nil
-        )
-    }
-
-    private func getRequestWithTicker(
-        tickers: String = "AAPL",
-        limit: String = "20"
-    ) -> Request<EmptyRequest> {
-        Request(
-            basePathURL: "https://www.alphavantage.co/query",
-            httpMethod: .get,
-            queryParams: [
-                "function" : "NEWS_SENTIMENT",
-                "tickers" : tickers,
-                "limit" : limit,
-                "apikey" : client.getApiKey
-            ],
-            body: nil
-        )
-    }
-    
     private func getRequest(
         function: String = "NEWS_SENTIMENT",
         tickers: String = "AAPL",
         topics: String = "technology",
-        limit: String = "20") -> Request<EmptyRequest> {
+        limit: String = "20"
+    ) -> Request<EmptyRequest> {
             Request(
                 basePathURL: "https://www.alphavantage.co/query",
                 httpMethod: .get,
@@ -275,21 +241,5 @@ class MarketNewsViewController: UIViewController {
 extension MarketNewsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // open web view to url
-    }
-}
-
-// MARK: - UISearchController
-extension MarketNewsViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
-    func updateSearchResults(for searchController: UISearchController) {
-
-        guard let searchText = searchController.searchBar.text else { return }
-
-        self.searchQuery = searchText
-    }
-
-    func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
-//        let hostingController = UIHostingController(rootView: FilterSearchView())
-//        hostingController.modalPresentationStyle = .fullScreen
-//        self.present(hostingController, animated: true)
     }
 }

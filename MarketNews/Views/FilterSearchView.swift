@@ -6,35 +6,84 @@
 //
 
 import SwiftUI
+import Combine
 
-class ViewModel {
-    
-    init () {}
-    
-    func preformSearch() {
-        
+class FilterSearchViewModel: ObservableObject {
+
+    // MARK: Properties
+
+    var client: HTTPClient
+    private var cancellable = Set<AnyCancellable>()
+    @Published var selectedTopic: Topics = .technology
+    @Published var searchQuery: String = String()
+    @Published var searchResult: [SearchResult] = [
+        SearchResult(symbol: "", currency: "", name: "", type: "")
+    ]
+
+    // MARK: - Initializer
+
+    init(client: HTTPClient) {
+        self.client = client
+        startObservers()
     }
 
-}
+    // MARK: Helper Functions
 
-enum ExampleTickers: String, Identifiable, CaseIterable {
-    var id: UUID { UUID() }
+    func startObservers() {
+        $searchQuery
+            .debounce(for: .milliseconds(750), scheduler: RunLoop.main)
+            .sink { [unowned self] output in
 
-    case tesla = "TSLA"
-    case apple = "AAPL"
-    case google = "GGLE"
-    case amazon = "AMAZ"
-    case patterson = "PTSN"
+                guard !output.isEmpty else { return }
+
+                self.client.publisher(
+                    for: self.getRequest(keywords: output),
+                    response: SearchResults.self
+                ).sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case let .failure(error):
+                        print(error)
+                    }
+                } receiveValue: { [weak self] searchResults in
+                    self?.searchResult = searchResults.results
+                }.store(in: &self.cancellable)
+            }.store(in: &self.cancellable)
+    }
+
+    private func getRequest(keywords: String) -> Request<EmptyRequest> {
+        Request(
+            basePathURL: "https://www.alphavantage.co/query",
+            httpMethod: .get,
+            queryParams: [
+                "function" : "SYMBOL_SEARCH",
+                "keywords" : keywords,
+                "apikey" : client.getApiKey
+            ],
+            body: nil
+        )
+    }
 }
 
 struct FilterSearchView: View {
-    @State private var ticker: String = String()
+    @ObservedObject private var filterSearchVM: FilterSearchViewModel
+    @State private var isChecked: Bool = true
+
+    var client: HTTPClient
+
+    init(client: HTTPClient) {
+        self.client = client
+        filterSearchVM = FilterSearchViewModel(client: client)
+    }
 
     var body: some View {
         NavigationView {
-            VStack(alignment: .center, spacing: 4) {
-                selectTicker
+            VStack(alignment: .center, spacing: 2) {
+                tickerTextfield
+                listTickersForSearchQuery
                 Spacer()
+                toggleTopic
             }
             .padding([.top, .bottom, .leading, .trailing], 16)
             .navigationTitle("Advanced Search")
@@ -42,30 +91,53 @@ struct FilterSearchView: View {
         }
     }
 
-    var selectTicker: some View {
-        VStack(alignment: .center, spacing: 4) {
-            Picker("Enter the ticker to search for", selection: $ticker) {
-                ForEach(ExampleTickers.allCases, id: \.id) {
-                    Text($0.rawValue)
-                }
-            }
-            .pickerStyle(.inline)
-            .colorMultiply(.blue)
-            Text("Ticker Selected: \(ticker)")
-        }
+    var tickerTextfield: some View {
+        TextField("Enter a ticker to search for", text: $filterSearchVM.searchQuery)
+            .textFieldStyle(.roundedBorder)
+            .foregroundColor(.gray) // text color = gray
+            .textInputAutocapitalization(.characters)
+            .padding()
     }
 
-//    var selectTopic: some View {
-//        checkbox
+    var listTickersForSearchQuery: some View {
+        List(filterSearchVM.searchResult) {
+            Text($0.symbol)
+        }
+        .foregroundColor(.blue)
+        .listStyle(.inset) //inset
+    }
+
+//    var topicTextField: some View {
+//        VStack {
+//            Text("Enter a topic to seach for: ")
+//                .font(.headline)
+//                .fontWeight(.bold)
+//            ForEach(Topics.allCases, id: \.self) { name in
+//                Text(name.rawValue)
+//                    .font(.subheadline)
+//            }
+//        }
 //    }
 
-//    var searchButton: some View {
-//
-//    }
+    var toggleTopic: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            ForEach(Topics.allCases, id: \.self) { name in
+                HStack {
+                    Toggle(name.rawValue, isOn: $isChecked)
+                        .labelsHidden()
+                        .toggleStyle(.checklist)
+                        .font(.title)
+                    Text(name.rawValue)
+                }
+            }
+            
+        }.padding()
+        
+    }
 }
 
 struct FilterSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        FilterSearchView()
+        FilterSearchView(client: HTTPClient())
     }
 }
