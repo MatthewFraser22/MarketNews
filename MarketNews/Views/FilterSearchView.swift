@@ -12,8 +12,8 @@ struct FilterSearchView: View {
     @ObservedObject private var filterSearchVM: FilterSearchViewModel
     @State private var isChecked: Bool = true
 
-    private var tickerLabelColor: Color {
-        return filterSearchVM.selectedTicker.isEmpty == true ? Color.gray : Color.red
+    private var tickerText: Text {
+        return filterSearchVM.selectedTicker.isEmpty == true ? Text("Select a stock ticker") : Text("Selected:")
     }
 
     var client: HTTPClient
@@ -42,9 +42,14 @@ struct FilterSearchView: View {
     }
 
     var tickerLabel: some View {
-        Text("Enter a ticker to search for")
-            .foregroundColor(tickerLabelColor)
-            .textFieldStyle(.roundedBorder)
+        HStack {
+            tickerText
+                .foregroundColor(.blue)
+                //.textFieldStyle(.plain)
+            Text(filterSearchVM.selectedTicker)
+                .foregroundColor(.blue)
+        }
+        .padding(.bottom, 20)
     }
 
     var toggleTopic: some View {

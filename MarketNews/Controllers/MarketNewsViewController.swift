@@ -52,7 +52,7 @@ class MarketNewsViewController: UIViewController {
 
     @objc private func filterButtonAction() {
         let hostingController = UIHostingController(rootView: FilterSearchView(client: client))
-        hostingController.modalPresentationStyle = .fullScreen
+        hostingController.modalPresentationStyle = .automatic
         self.present(hostingController, animated: true)
     }
 

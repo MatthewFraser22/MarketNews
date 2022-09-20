@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchStockTickerView: View {
     @EnvironmentObject var filterSearchVM: FilterSearchViewModel
+    @Environment(\.presentationMode) private var presentationMode
 
     init() {}
 
@@ -16,7 +17,6 @@ struct SearchStockTickerView: View {
         VStack(alignment: .center, spacing: 4) {
             tickerTextfield
             placeholderText
-            listTickersForSearchQuery
             Spacer()
         }.navigationTitle("TickerSearchView")
     }
@@ -27,15 +27,6 @@ struct SearchStockTickerView: View {
             .foregroundColor(.gray) // text color = gray
             .textInputAutocapitalization(.characters)
             .padding()
-    }
-
-    var listTickersForSearchQuery: some View {
-        List(filterSearchVM.searchResult) {
-            Text($0.symbol)
-        }
-        .padding([.bottom], 10)
-        .foregroundColor(.blue)
-        .listStyle(.plain) //inset
     }
 
     var placeholderText: some View {
@@ -50,12 +41,27 @@ struct SearchStockTickerView: View {
                     Text("Start by searching for a stock ticker")
                         .font(.subheadline)
                         .foregroundColor(Color(uiColor: .systemGray))
-                    //Spacer()
+                    Spacer()
                 }.padding([.top], 20)
             )
         } else {
-            return AnyView(EmptyView())
+            return AnyView(listTickersForSearchQuery)
         }
-        
     }
+
+    var listTickersForSearchQuery: some View {
+        List(filterSearchVM.searchResult) { searchResult in
+            Button {
+                filterSearchVM.selectedTicker = searchResult.symbol
+                #warning("Replace with the new environment isPresented")
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                Text(searchResult.symbol)
+            }
+        }
+        .padding([.bottom], 10)
+        .foregroundColor(.blue)
+        .listStyle(.plain) //inset
+    }
+
 }
