@@ -13,9 +13,10 @@ class FilterSearchViewModel: ObservableObject {
 
     var client: HTTPClient
     private var cancellable = Set<AnyCancellable>()
-    @Published var selectedTopic: Topics = .technology
-    @Published var searchQuery: String = String()
+    @Published var selectedTopic: Topics?
     @Published var selectedTicker: String = ""
+    @Published var searchQuery: String = String()
+    @Published var canSelectTopic: Bool = true
     @Published var searchResult: [SearchResult] = [
         SearchResult(symbol: "", currency: "", name: "", type: "")
     ]
@@ -52,6 +53,25 @@ class FilterSearchViewModel: ObservableObject {
             }.store(in: &self.cancellable)
     }
 
+    func checkBoxButtonPressed(isChecked: inout Bool, topic: Topics) {
+
+        guard isChecked == true || canSelectTopic == true else { return }
+
+        isChecked = !isChecked
+
+        if isChecked {
+            selectedTopic = topic
+            canSelectTopic = false
+        } else {
+            selectedTopic = nil
+            canSelectTopic = true
+        }
+    }
+
+    func preformAdvancedSearch() {
+        
+    }
+
     private func getRequest(keywords: String) -> Request<EmptyRequest> {
         Request(
             basePathURL: "https://www.alphavantage.co/query",
@@ -64,4 +84,6 @@ class FilterSearchViewModel: ObservableObject {
             body: nil
         )
     }
+    
+    private func
 }

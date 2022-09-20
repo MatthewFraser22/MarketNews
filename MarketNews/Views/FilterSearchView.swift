@@ -42,10 +42,9 @@ struct FilterSearchView: View {
     }
 
     var tickerLabel: some View {
-        HStack {
+        HStack(alignment: .firstTextBaseline, spacing: 2) {
             tickerText
                 .foregroundColor(.blue)
-                //.textFieldStyle(.plain)
             Text(filterSearchVM.selectedTicker)
                 .foregroundColor(.blue)
         }
@@ -53,13 +52,16 @@ struct FilterSearchView: View {
     }
 
     var toggleTopic: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 8) {
             Text("Choose a topic to search for")
-                .font(.title)
+                .font(.title2)
+                .bold()
+                .foregroundColor(.gray)
             ScrollView(.vertical, showsIndicators: true) {
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(Topics.allCases, id: \.self) { topic in
                         CheckboxView(topic: topic)
+                            .environmentObject(filterSearchVM)
                     }
                 }
             }
@@ -68,10 +70,17 @@ struct FilterSearchView: View {
     }
 
     var searchButton: some View {
-        Button("Search for related news") {
-            
+        Button {
+            print("tapped")
+        } label: {
+            ZStack {
+                Color.blue
+                    .cornerRadius(8)
+                Text("Search")
+                    .bold()
+                    .foregroundColor(.white)
+            }.frame(height: 50)
         }
-
     }
 }
 
