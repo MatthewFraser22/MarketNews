@@ -58,7 +58,6 @@ class HTTPClient {
                 }
                 .decode(type: Res.self, decoder: JSONDecoder())
                 .mapError({ (error) -> JSONDecodingError in
-                    print(error.localizedDescription)
                     return JSONDecodingError(
                         errorCode: JSONDecodingError.ErrorCodes.unknown.rawValue,
                         errorUserInfo: [

@@ -107,10 +107,10 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         timePublishedLabel.text = item.timePublished.customDate()
         authorsLabel.text = item.authors.toString()
 
-        if item.bannerImage == "" {
+        if item.bannerImage?.isEmpty == true || item.bannerImage == nil {
             bannerImageView.image = .placeHolderImage
         } else {
-            bannerImageView.downloaded(from: item.bannerImage)
+            bannerImageView.downloaded(from: item.bannerImage!)
         }
     }
 

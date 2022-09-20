@@ -33,6 +33,7 @@
 		992F7A9C28B6DE840082F4A7 /* Topics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992F7A9B28B6DE840082F4A7 /* Topics.swift */; };
 		992F7A9E28B6F4BE0082F4A7 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992F7A9D28B6F4BE0082F4A7 /* SectionHeaderCell.swift */; };
 		992F7AA228B71D100082F4A7 /* FilterSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992F7AA128B71D100082F4A7 /* FilterSearchView.swift */; };
+		994E898928CBDE96007FC698 /* SearchStockTickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994E898828CBDE96007FC698 /* SearchStockTickerView.swift */; };
 		995A6A3A28AC39B6005776B1 /* RequestAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A3928AC39B6005776B1 /* RequestAPIError.swift */; };
 		995A6A3C28AC4021005776B1 /* HTTPClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A3B28AC4021005776B1 /* HTTPClientError.swift */; };
 		995A6A3F28AC78A3005776B1 /* MarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A3E28AC78A3005776B1 /* MarketData.swift */; };
@@ -40,6 +41,9 @@
 		995B9D4A28B4902000E24FC0 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B9D4928B4902000E24FC0 /* Character+Extensions.swift */; };
 		997EA25728CA920B00139D66 /* Toggle+CheckBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25628CA920B00139D66 /* Toggle+CheckBoxStyle.swift */; };
 		997EA25928CA970000139D66 /* SymbolVariants+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25828CA970000139D66 /* SymbolVariants+Extensions.swift */; };
+		997EA25C28CAE07C00139D66 /* FilterSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25B28CAE07C00139D66 /* FilterSearchViewModel.swift */; };
+		997EA25E28CAE0FB00139D66 /* CheckListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25D28CAE0FB00139D66 /* CheckListItem.swift */; };
+		997EA26028CAE23E00139D66 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25F28CAE23E00139D66 /* CheckboxView.swift */; };
 		99B4BB2428B8087100A0C878 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B4BB2328B8087100A0C878 /* SearchResults.swift */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +76,7 @@
 		992F7A9B28B6DE840082F4A7 /* Topics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topics.swift; sourceTree = "<group>"; };
 		992F7A9D28B6F4BE0082F4A7 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
 		992F7AA128B71D100082F4A7 /* FilterSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSearchView.swift; sourceTree = "<group>"; };
+		994E898828CBDE96007FC698 /* SearchStockTickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStockTickerView.swift; sourceTree = "<group>"; };
 		995A6A3928AC39B6005776B1 /* RequestAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPIError.swift; sourceTree = "<group>"; };
 		995A6A3B28AC4021005776B1 /* HTTPClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientError.swift; sourceTree = "<group>"; };
 		995A6A3E28AC78A3005776B1 /* MarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketData.swift; sourceTree = "<group>"; };
@@ -79,6 +84,9 @@
 		995B9D4928B4902000E24FC0 /* Character+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Extensions.swift"; sourceTree = "<group>"; };
 		997EA25628CA920B00139D66 /* Toggle+CheckBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Toggle+CheckBoxStyle.swift"; sourceTree = "<group>"; };
 		997EA25828CA970000139D66 /* SymbolVariants+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SymbolVariants+Extensions.swift"; sourceTree = "<group>"; };
+		997EA25B28CAE07C00139D66 /* FilterSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSearchViewModel.swift; sourceTree = "<group>"; };
+		997EA25D28CAE0FB00139D66 /* CheckListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListItem.swift; sourceTree = "<group>"; };
+		997EA25F28CAE23E00139D66 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		99B4BB2328B8087100A0C878 /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +121,8 @@
 				990BDF5628ADA43100F8A607 /* LargeNewsCollectionViewCell.swift */,
 				992F7A9D28B6F4BE0082F4A7 /* SectionHeaderCell.swift */,
 				992F7AA128B71D100082F4A7 /* FilterSearchView.swift */,
+				997EA25F28CAE23E00139D66 /* CheckboxView.swift */,
+				994E898828CBDE96007FC698 /* SearchStockTickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -145,6 +155,7 @@
 		991F905A28AAD8BC0085050B /* MarketNews */ = {
 			isa = PBXGroup;
 			children = (
+				997EA25A28CAE06F00139D66 /* ViewModels */,
 				997EA25528CA91E900139D66 /* SwiftUI Styles */,
 				992F7A9A28B6DE770082F4A7 /* Enumerations */,
 				990BDF5828ADA48D00F8A607 /* Protocols */,
@@ -227,6 +238,7 @@
 				995A6A3E28AC78A3005776B1 /* MarketData.swift */,
 				990BDF5B28ADB08500F8A607 /* NewsArticleItem.swift */,
 				99B4BB2328B8087100A0C878 /* SearchResults.swift */,
+				997EA25D28CAE0FB00139D66 /* CheckListItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -237,6 +249,14 @@
 				997EA25628CA920B00139D66 /* Toggle+CheckBoxStyle.swift */,
 			);
 			path = "SwiftUI Styles";
+			sourceTree = "<group>";
+		};
+		997EA25A28CAE06F00139D66 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				997EA25B28CAE07C00139D66 /* FilterSearchViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,11 +334,13 @@
 				995A6A3C28AC4021005776B1 /* HTTPClientError.swift in Sources */,
 				991F907328AAD9960085050B /* MarketNewsViewController.swift in Sources */,
 				991F907828AB36570085050B /* HTTPClient.swift in Sources */,
+				997EA26028CAE23E00139D66 /* CheckboxView.swift in Sources */,
 				990BDF5E28ADB40900F8A607 /* Array+Extensions.swift in Sources */,
 				990BDF5028AD6F6D00F8A607 /* Bundle+Extensions.swift in Sources */,
 				990BDF4B28AD55B200F8A607 /* JSONDecodingError.swift in Sources */,
 				992F7A9628B6CC410082F4A7 /* UIImageView+Extensions.swift in Sources */,
 				997EA25928CA970000139D66 /* SymbolVariants+Extensions.swift in Sources */,
+				997EA25C28CAE07C00139D66 /* FilterSearchViewModel.swift in Sources */,
 				992F7AA228B71D100082F4A7 /* FilterSearchView.swift in Sources */,
 				991F905C28AAD8BC0085050B /* AppDelegate.swift in Sources */,
 				990BDF5728ADA43100F8A607 /* LargeNewsCollectionViewCell.swift in Sources */,
@@ -333,8 +355,10 @@
 				990BDF5428AD9AC700F8A607 /* NewsSection.swift in Sources */,
 				990E091D28B005F100CBF7AD /* UIImage+Extensions.swift in Sources */,
 				995A6A3A28AC39B6005776B1 /* RequestAPIError.swift in Sources */,
+				997EA25E28CAE0FB00139D66 /* CheckListItem.swift in Sources */,
 				991F905E28AAD8BC0085050B /* SceneDelegate.swift in Sources */,
 				991F907C28AB3A610085050B /* Request.swift in Sources */,
+				994E898928CBDE96007FC698 /* SearchStockTickerView.swift in Sources */,
 				99B4BB2428B8087100A0C878 /* SearchResults.swift in Sources */,
 				990E091728AFFF6D00CBF7AD /* String+Extensions.swift in Sources */,
 				992F7A9C28B6DE840082F4A7 /* Topics.swift in Sources */,

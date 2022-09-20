@@ -9,18 +9,18 @@ import Foundation
 import SwiftUI
 
 struct ToggleCheckBoxStyle: ToggleStyle {
-
     func makeBody(configuration: Configuration) -> some View {
         Button {
+            print("testing toggle: \(configuration.isOn)")
             configuration.isOn.toggle()
         } label: {
-            if configuration.isOn {
+            #warning("TODO - fix logic")
+            if !configuration.isOn {
                 Image(systemName: "checkmark.square.fill")
             } else {
                 Image(systemName: "square")
             }
         }.foregroundColor(.blue)
-        
     }
 }
 

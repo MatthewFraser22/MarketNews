@@ -13,11 +13,11 @@ struct MarketData: Codable, Hashable {
     let items: String
     let feed: [FeedItem]
 
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        items = try container.decode(String.self, forKey: .items)
-        feed = try container.decode([FeedItem].self, forKey: .feed)
-    }
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        items = try container.decode(String.self, forKey: .items)
+//        feed = try container.decode([FeedItem].self, forKey: .feed)
+//    }
 
     enum CodingKeys: String, CodingKey {
         case items
@@ -33,23 +33,23 @@ struct FeedItem: Codable, Hashable {
     let timePublished: String
     let authors: [String]
     let summary: String
-    let bannerImage: String
+    let bannerImage: String?
     let source: String
     let category: String
     let topics: [TopicElement]
 
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        title = try container.decode(String.self, forKey: .title)
-        url = try container.decode(String.self, forKey: .url)
-        timePublished = try container.decode(String.self, forKey: .timePublished)
-        authors = try container.decode([String].self, forKey: .authors)
-        summary = try container.decode(String.self, forKey: .summary)
-        bannerImage = try container.decode(String.self, forKey: .bannerImage)
-        source = try container.decode(String.self, forKey: .source)
-        category = try container.decode(String.self, forKey: .category)
-        topics = try container.decode([TopicElement].self, forKey: .topics)
-    }
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        title = try container.decode(String.self, forKey: .title)
+//        url = try container.decode(String.self, forKey: .url)
+//        timePublished = try container.decode(String.self, forKey: .timePublished)
+//        authors = try container.decode([String].self, forKey: .authors)
+//        summary = try container.decode(String.self, forKey: .summary)
+//        bannerImage = try container.decode(String.self, forKey: .bannerImage)
+//        source = try container.decode(String.self, forKey: .source)
+//        category = try container.decode(String.self, forKey: .category)
+//        topics = try container.decode([TopicElement].self, forKey: .topics)
+//    }
 
     enum CodingKeys: String, CodingKey {
         case title

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct NewsArticleItem {
-    let bannerImage: String
+    let bannerImage: String?
     let source: String
     let title: String
     let summary: String
