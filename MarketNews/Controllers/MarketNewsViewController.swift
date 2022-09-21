@@ -68,7 +68,6 @@ class MarketNewsViewController: UIViewController {
                     print("Error: \(error)")
                 }
             } receiveValue: { [weak self] feed in
-                print("Testing reload data \(feed.count)")
                 self?.reloadData()
             }.store(in: &cancellable)
 

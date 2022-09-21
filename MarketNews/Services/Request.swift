@@ -67,7 +67,6 @@ struct Request<Body: Codable> {
             urlRequest.httpBody = try JSONEncoder().encode(body)
         }
 
-        print("Testing url request \(urlRequest.url)")
         return urlRequest
     }
 }

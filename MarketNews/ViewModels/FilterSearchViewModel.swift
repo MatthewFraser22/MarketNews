@@ -12,7 +12,7 @@ class FilterSearchViewModel: ObservableObject {
     // MARK: Properties
 
     var client: HTTPClient
-    private var cancellable = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
     @Published var selectedTopic: Topics?
     @Published var selectedTicker: String = ""
     @Published var searchQuery: String = String()
@@ -38,7 +38,7 @@ class FilterSearchViewModel: ObservableObject {
                 guard !output.isEmpty else { return }
 
                 self.client.publisher(
-                    for: self.getRequest(keywords: output),
+                    for: self.getSymbolsRequest(keywords: output),
                     response: SearchResults.self
                 ).sink { completion in
                     switch completion {
@@ -49,8 +49,8 @@ class FilterSearchViewModel: ObservableObject {
                     }
                 } receiveValue: { [weak self] searchResults in
                     self?.searchResult = searchResults.results
-                }.store(in: &self.cancellable)
-            }.store(in: &self.cancellable)
+                }.store(in: &self.cancellables)
+            }.store(in: &self.cancellables)
     }
 
     func checkBoxButtonPressed(isChecked: inout Bool, topic: Topics) {
@@ -69,10 +69,37 @@ class FilterSearchViewModel: ObservableObject {
     }
 
     func preformAdvancedSearch() {
-        
+        self.client.publisher(
+            for: getRequest(),
+            response: MarketData.self
+        ).sink { completion in
+            switch completion {
+            case .finished:
+                break
+            case let .failure(error):
+                print(error)
+            }
+        } receiveValue: { marketData in
+            
+        }.store(in: &cancellables)
+
     }
 
-    private func getRequest(keywords: String) -> Request<EmptyRequest> {
+    func getRequest() -> Request<EmptyRequest> {
+        Request(
+            basePathURL: "https://www.alphavantage.co/query",
+            httpMethod: .get,
+            queryParams: [
+                "function" : "NEWS_SENTIMENT",
+                "tickers" : selectedTicker,
+                "topics" : selectedTopic?.rawValue ?? Topics.technology.rawValue,
+                "apikey" : client.getApiKey
+            ],
+            body: nil
+        )
+    }
+
+    private func getSymbolsRequest(keywords: String) -> Request<EmptyRequest> {
         Request(
             basePathURL: "https://www.alphavantage.co/query",
             httpMethod: .get,
@@ -84,6 +111,4 @@ class FilterSearchViewModel: ObservableObject {
             body: nil
         )
     }
-    
-    private func
 }

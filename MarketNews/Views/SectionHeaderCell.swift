@@ -17,8 +17,7 @@ class SectionHeaderCell: UICollectionReusableView {
         let seperator = UIView(frame: .zero)
         seperator.translatesAutoresizingMaskIntoConstraints = false
         seperator.backgroundColor = .tertiaryLabel
-        
-        print("TEsting adding sub view")
+
         addSubview(seperator)
         NSLayoutConstraint.activate([
             seperator.heightAnchor.constraint(equalToConstant: 1),

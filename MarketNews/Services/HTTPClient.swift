@@ -51,9 +51,6 @@ class HTTPClient {
                         )
                     }
 
-                    print("Testing data \(data)")
-                    print("Testing decoding to \(Res.self)")
-
                     return data
                 }
                 .decode(type: Res.self, decoder: JSONDecoder())
