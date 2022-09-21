@@ -25,6 +25,10 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        let seperator = UIView(frame: .zero)
+        seperator.translatesAutoresizingMaskIntoConstraints = false
+        seperator.backgroundColor = .blue
+
         bannerImageView.contentMode = .scaleAspectFill
         bannerImageView.clipsToBounds = true
         bannerImageView.layer.cornerRadius = 5
@@ -64,7 +68,8 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         let vStack = UIStackView(arrangedSubviews: [
             articleTitleLabel,
             bannerImageView,
-            detailsVStack
+            detailsVStack,
+            seperator
         ])
 
         vStack.translatesAutoresizingMaskIntoConstraints = false
@@ -75,6 +80,7 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         self.addSubview(vStack)
 
         NSLayoutConstraint.activate([
+            seperator.heightAnchor.constraint(equalToConstant: 1),
             vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             vStack.widthAnchor.constraint(equalTo: super.widthAnchor, constant: 21),
@@ -85,6 +91,9 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
             detailsVStack.leadingAnchor.constraint(equalTo: vStack.leadingAnchor, constant: 15)
         ])
 
+        vStack.setCustomSpacing(5, after: seperator)
+        
+        print(vStack.subviews.count)
     }
 
     required init?(coder: NSCoder) {
@@ -97,7 +106,12 @@ class LargeNewsCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         summaryLabel.text = item.summary
         timePublishedLabel.text = item.timePublished.customDate()
         authorsLabel.text = item.authors.toString()
-        bannerImageView.downloaded(from: item.bannerImage)
+
+        if item.bannerImage?.isEmpty == true || item.bannerImage == nil {
+            bannerImageView.image = .placeHolderImage
+        } else {
+            bannerImageView.downloaded(from: item.bannerImage!)
+        }
     }
 
 }

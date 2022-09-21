@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Combine
+import SwiftUI
 
 class MarketNewsViewController: UIViewController {
 
@@ -15,11 +16,15 @@ class MarketNewsViewController: UIViewController {
 
     typealias DataSource = UICollectionViewDiffableDataSource<NewsSection, FeedItem> // Section Identifier & type
     typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<NewsSection, FeedItem>
+
     lazy var dataSource = { configureDiffableDataSource() }()
+
     private var collectionView: UICollectionView!
     private var cancellable: Set<AnyCancellable> = []
-    private var client: HTTPClient = HTTPClient()
-    @Published var marketData: MarketData?
+    var client: HTTPClient = HTTPClient()
+
+    @Published var initialLoad: MarketData?
+    @Published var searchQuery: String = String()
 
     // MARK: - Creation
 
@@ -28,28 +33,58 @@ class MarketNewsViewController: UIViewController {
 
         setupNavigationView()
         setupCollectionView()
-        InitialNewsLoad()
+        loadInitialNews()
         startObservers()
     }
 
+    private func setupNavigationView() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.title = "Market News 🗞"
+
+        let filterButton = UIBarButtonItem(
+            image: .init(systemName: "line.3.horizontal.decrease.circle"),
+            style: .plain, target: self,
+            action: #selector(filterButtonAction)
+        )
+
+        self.navigationItem.rightBarButtonItem = filterButton
+    }
+
+    @objc private func filterButtonAction() {
+        let hostingController = UIHostingController(rootView: FilterSearchView(client: client))
+        hostingController.modalPresentationStyle = .automatic
+        self.present(hostingController, animated: true)
+    }
+
     private func startObservers() {
-        $marketData
+        $initialLoad
             .debounce(for: .milliseconds(750), scheduler: RunLoop.main)
-            .receive(on: RunLoop.main)
             .compactMap({ ($0?.feed) })
             .sink { completion in
                 switch completion {
                 case .finished:
                     break
                 case let .failure(error):
-                    print(error)
+                    print("Error: \(error)")
                 }
             } receiveValue: { [weak self] feed in
                 self?.reloadData()
             }.store(in: &cancellable)
+
+        $searchQuery
+            .debounce(for: .milliseconds(750), scheduler: RunLoop.main)
+            .sink { completion in
+                #warning("TODO - Error catching")
+            } receiveValue: { [weak self] searchQuery in
+
+                // TODO: - load by tickers or topics to do that i need a symbol list
+
+
+            }.store(in: &cancellable)
+
     }
 
-    private func InitialNewsLoad() {
+    private func loadInitialNews() {
         client.publisher(
             for: getRequest(),
             response: MarketData.self
@@ -61,13 +96,8 @@ class MarketNewsViewController: UIViewController {
                 print(error)
             }
         } receiveValue: { [weak self] marketData in
-            self?.marketData = marketData
+            self?.initialLoad = marketData
         }.store(in: &cancellable)
-
-    }
-    private func setupNavigationView() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "Market News 🗞"
     }
 
     private func setupCollectionView() {
@@ -85,7 +115,6 @@ class MarketNewsViewController: UIViewController {
 
         collectionView.dataSource = self.dataSource
 
-        // self.reloadData()
     }
 
     // MARK: - Configure Layouts
@@ -177,7 +206,7 @@ class MarketNewsViewController: UIViewController {
         var snapshot = DataSourceSnapshot()
         snapshot.appendSections([.topStories, .additionalStories])
 
-        guard let feed = marketData?.feed else { return }
+        guard let feed = initialLoad?.feed else { return }
 
         snapshot.appendItems(feed, toSection: .topStories)
 
@@ -187,22 +216,24 @@ class MarketNewsViewController: UIViewController {
     // MARK: - Get Request
 
     private func getRequest(
-        function: String = "NEWS_SENTIMENT", tickers: String = "AAPL",
-        topics: String = "technology", limit: String = "20"
+        function: String = "NEWS_SENTIMENT",
+        tickers: String = "AAPL",
+        topics: String = "technology",
+        limit: String = "20"
     ) -> Request<EmptyRequest> {
-        Request(
-            basePathURL: "https://www.alphavantage.co/query",
-            httpMethod: .get,
-            queryParams: [
-                "function" : function,
-                "tickers" : tickers,
-                "topics" : topics,
-                "limit" : limit,
-                "apikey" : client.getApiKey
-            ],
-            body: nil
-        )
-    }
+            Request(
+                basePathURL: "https://www.alphavantage.co/query",
+                httpMethod: .get,
+                queryParams: [
+                    "function" : function,
+                    "tickers" : tickers,
+                    "topics" : topics,
+                    "limit" : limit,
+                    "apikey" : client.getApiKey
+                    ],
+                body: nil
+            )
+        }
 }
 
 // MARK: - UICollectionView Delegate
