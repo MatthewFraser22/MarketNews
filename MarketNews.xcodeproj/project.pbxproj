@@ -39,7 +39,6 @@
 		995A6A3F28AC78A3005776B1 /* MarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A3E28AC78A3005776B1 /* MarketData.swift */; };
 		995A6A4128AC8857005776B1 /* EmptyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995A6A4028AC8857005776B1 /* EmptyRequest.swift */; };
 		995B9D4A28B4902000E24FC0 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B9D4928B4902000E24FC0 /* Character+Extensions.swift */; };
-		997EA25928CA970000139D66 /* SymbolVariants+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25828CA970000139D66 /* SymbolVariants+Extensions.swift */; };
 		997EA25C28CAE07C00139D66 /* FilterSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25B28CAE07C00139D66 /* FilterSearchViewModel.swift */; };
 		997EA26028CAE23E00139D66 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997EA25F28CAE23E00139D66 /* CheckboxView.swift */; };
 		99B4BB2428B8087100A0C878 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B4BB2328B8087100A0C878 /* SearchResults.swift */; };
@@ -80,7 +79,6 @@
 		995A6A3E28AC78A3005776B1 /* MarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketData.swift; sourceTree = "<group>"; };
 		995A6A4028AC8857005776B1 /* EmptyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyRequest.swift; sourceTree = "<group>"; };
 		995B9D4928B4902000E24FC0 /* Character+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character+Extensions.swift"; sourceTree = "<group>"; };
-		997EA25828CA970000139D66 /* SymbolVariants+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SymbolVariants+Extensions.swift"; sourceTree = "<group>"; };
 		997EA25B28CAE07C00139D66 /* FilterSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSearchViewModel.swift; sourceTree = "<group>"; };
 		997EA25F28CAE23E00139D66 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		99B4BB2328B8087100A0C878 /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 				990E091C28B005F100CBF7AD /* UIImage+Extensions.swift */,
 				995B9D4928B4902000E24FC0 /* Character+Extensions.swift */,
 				992F7A9528B6CC410082F4A7 /* UIImageView+Extensions.swift */,
-				997EA25828CA970000139D66 /* SymbolVariants+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -325,7 +322,6 @@
 				990BDF5028AD6F6D00F8A607 /* Bundle+Extensions.swift in Sources */,
 				990BDF4B28AD55B200F8A607 /* JSONDecodingError.swift in Sources */,
 				992F7A9628B6CC410082F4A7 /* UIImageView+Extensions.swift in Sources */,
-				997EA25928CA970000139D66 /* SymbolVariants+Extensions.swift in Sources */,
 				997EA25C28CAE07C00139D66 /* FilterSearchViewModel.swift in Sources */,
 				992F7AA228B71D100082F4A7 /* FilterSearchView.swift in Sources */,
 				991F905C28AAD8BC0085050B /* AppDelegate.swift in Sources */,

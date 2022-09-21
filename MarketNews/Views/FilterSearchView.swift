@@ -10,7 +10,6 @@ import Combine
 
 struct FilterSearchView: View {
     @ObservedObject private var filterSearchVM: FilterSearchViewModel
-    @State private var isChecked: Bool = true
 
     private var tickerText: Text {
         return filterSearchVM.selectedTicker.isEmpty == true ? Text("Select a stock ticker") : Text("Selected:")
