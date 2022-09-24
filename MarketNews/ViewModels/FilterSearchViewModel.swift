@@ -67,6 +67,10 @@ class FilterSearchViewModel: ObservableObject {
             canSelectTopic = true
         }
     }
+    
+    func searchButtonPressed() {
+        
+    }
 
     func preformAdvancedSearch() {
         self.client.publisher(

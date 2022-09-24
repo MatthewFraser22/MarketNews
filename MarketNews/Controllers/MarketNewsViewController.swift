@@ -78,7 +78,7 @@ class MarketNewsViewController: UIViewController {
             } receiveValue: { [weak self] searchQuery in
 
                 // TODO: - load by tickers or topics to do that i need a symbol list
-
+                #warning("Check this out again")
 
             }.store(in: &cancellable)
 
@@ -156,6 +156,7 @@ class MarketNewsViewController: UIViewController {
         let dataSource = DataSource(
             collectionView: collectionView
         ) { [weak self] collectionView, indexPath, itemIdentifier in
+
             if indexPath.item < 3 {} else {}
 
             return try? self?.configureCell(

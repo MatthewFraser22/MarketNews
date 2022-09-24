@@ -10,6 +10,7 @@ import Combine
 
 struct FilterSearchView: View {
     @ObservedObject private var filterSearchVM: FilterSearchViewModel
+    @Environment(\.presentationMode) private var presentationMode
 
     private var tickerText: Text {
         return filterSearchVM.selectedTicker.isEmpty == true ? Text("Select a stock ticker") : Text("Selected:")
@@ -70,7 +71,8 @@ struct FilterSearchView: View {
 
     var searchButton: some View {
         Button {
-            print("tapped")
+            // Move code to view model
+            presentationMode.wrappedValue.dismiss()
         } label: {
             ZStack {
                 Color.blue
