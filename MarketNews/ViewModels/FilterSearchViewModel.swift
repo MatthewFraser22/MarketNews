@@ -21,6 +21,10 @@ class FilterSearchViewModel: ObservableObject {
         SearchResult(symbol: "", currency: "", name: "", type: "")
     ]
 
+    var canProceedAdvancedSearch: Bool {
+        selectedTopic != nil && !selectedTicker.isEmpty
+    }
+
     // MARK: - Initializer
 
     init(client: HTTPClient) {

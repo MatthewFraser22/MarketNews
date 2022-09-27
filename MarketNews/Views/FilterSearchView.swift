@@ -13,7 +13,9 @@ struct FilterSearchView: View {
     @Environment(\.presentationMode) private var presentationMode
 
     private var tickerText: Text {
-        return filterSearchVM.selectedTicker.isEmpty == true ? Text("Select a stock ticker") : Text("Selected:")
+        return filterSearchVM.selectedTicker.isEmpty == true ?
+        Text("Select a stock ticker").foregroundColor(.blue) :
+        Text("Selected: \(filterSearchVM.selectedTicker)").foregroundColor(.red)
     }
 
     var client: HTTPClient
@@ -25,7 +27,7 @@ struct FilterSearchView: View {
 
     var body: some View {
         NavigationView {
-            VStack(alignment: .center, spacing: 8) {
+            VStack(alignment: .leading, spacing: 8) {
                 NavigationLink(
                     destination: SearchStockTickerView()
                         .environmentObject(filterSearchVM)
@@ -44,9 +46,8 @@ struct FilterSearchView: View {
     var tickerLabel: some View {
         HStack(alignment: .firstTextBaseline, spacing: 2) {
             tickerText
-                .foregroundColor(.blue)
-            Text(filterSearchVM.selectedTicker)
-                .foregroundColor(.blue)
+                .font(.title2)
+                .bold()
         }
         .padding(.bottom, 20)
     }
@@ -72,7 +73,13 @@ struct FilterSearchView: View {
     var searchButton: some View {
         Button {
             // Move code to view model
-            presentationMode.wrappedValue.dismiss()
+            if filterSearchVM.canProceedAdvancedSearch == true {
+                presentationMode.wrappedValue.dismiss()
+            } else {
+                
+            }
+            
+            
         } label: {
             ZStack {
                 Color.blue
